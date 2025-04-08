@@ -1,0 +1,1 @@
+// This file is being removed as Auth.js provides more complete functionality

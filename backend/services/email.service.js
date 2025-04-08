@@ -1,0 +1,1 @@
+// This file is being removed as emailSender.js in utils folder provides better functionality
