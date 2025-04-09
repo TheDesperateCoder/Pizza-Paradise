@@ -203,8 +203,7 @@ const Checkout = () => {
           // Make sure we're sending the proper authorization header
           const orderResponse = await axios.post(`${API_URL}/orders/create`, orderData, {
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
+              'Authorization': `Bearer ${token}`
             }
           });
           

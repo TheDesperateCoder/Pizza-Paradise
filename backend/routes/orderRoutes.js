@@ -1,21 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { authMiddleware } = require('../middleware/auth');
-const orderController = require('../controllers/orderController');
+const { createOrder, getOrders, getOrderById } = require('../controllers/orderController');
+const { isAuthenticated } = require('../middleware/authMiddleware');
 
-// Create a new order
-router.post('/create', authMiddleware, orderController.createOrder);
-
-// Get order history for authenticated user
-router.get('/history', authMiddleware, orderController.getUserOrders);
-
-// Get a specific order by ID
-router.get('/:id', authMiddleware, orderController.getOrderById);
-
-// Update order status (admin only)
-router.patch('/:id/status', authMiddleware, orderController.updateOrderStatus);
-
-// Cancel an order
-router.post('/:id/cancel', authMiddleware, orderController.cancelOrder);
+// Protected routes - require authentication
+router.post('/create', isAuthenticated, createOrder);
+router.get('/', isAuthenticated, getOrders);
+router.get('/:id', isAuthenticated, getOrderById);
 
 module.exports = router;

@@ -1,50 +1,67 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Protect routes
-exports.protect = async (req, res, next) => {
-  let token;
-
-  // Check if auth header exists and follows Bearer format
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    // Extract token from Bearer format
-    token = req.headers.authorization.split(' ')[1];
-  }
-
-  // If no token found
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized to access this route'
-    });
-  }
-
+/**
+ * Authentication middleware to verify user token
+ */
+exports.isAuthenticated = async (req, res, next) => {
   try {
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Decoded token:', decoded);
-
-    // Find user by id
-    const user = await User.findById(decoded.id).select('-password');
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'User not found'
+    // Check for authorization header
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Authentication required. Please log in.' 
       });
     }
-
-    // Add user to request object
+    
+    // Extract the token
+    const token = authHeader.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Authentication token is missing' 
+      });
+    }
+    
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Check if user exists
+    const user = await User.findById(decoded.id).select('-password');
+    
+    if (!user) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'User not found or invalid token' 
+      });
+    }
+    
+    // Attach user to request
     req.user = user;
     next();
   } catch (error) {
     console.error('Auth middleware error:', error);
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized to access this route'
+    
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Invalid authentication token' 
+      });
+    }
+    
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Authentication token expired' 
+      });
+    }
+    
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error during authentication' 
     });
   }
 };
