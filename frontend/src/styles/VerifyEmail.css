@@ -1,0 +1,54 @@
+.verify-email-container {
+  padding: 5rem 0;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.verify-email-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+  padding: 1.5rem;
+}
+
+.verify-email-card h2 {
+  font-weight: 600;
+  color: #333;
+}
+
+.verification-pending {
+  padding: 2rem 0;
+}
+
+.verification-success, .verification-error {
+  padding: 1rem 0;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #28a745;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.error-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #dc3545;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}

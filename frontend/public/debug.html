@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React App Diagnostics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #444;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .section {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+    button {
+      padding: 8px 12px;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #results {
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>React App Diagnostics</h1>
+  
+  <div class="section">
+    <h2>Environment Check</h2>
+    <div id="env-check"></div>
+  </div>
+
+  <div class="section">
+    <h2>DOM Check</h2>
+    <div id="dom-check"></div>
+  </div>
+  
+  <div class="section">
+    <h2>Network Check</h2>
+    <button id="check-network">Check Network Resources</button>
+    <div id="network-results"></div>
+  </div>
+  
+  <div class="section">
+    <h2>Console Errors</h2>
+    <div id="console-errors">No errors detected yet.</div>
+  </div>
+
+  <div class="section">
+    <h2>Manual Tests</h2>
+    <p>1. Try opening your app in an incognito window.</p>
+    <p>2. Clear your browser cache and reload.</p>
+    <p>3. Check if you can access the React development server directly:</p>
+    <button id="check-server">Check React Server</button>
+    <div id="server-result"></div>
+  </div>
+
+  <script>
+    // Environment Check
+    function checkEnvironment() {
+      const envDiv = document.getElementById('env-check');
+      envDiv.innerHTML = '';
+      
+      const items = [
+        { name: 'Browser', value: navigator.userAgent },
+        { name: 'Window Size', value: `${window.innerWidth}x${window.innerHeight}` },
+        { name: 'Document Ready State', value: document.readyState },
+        { name: 'Current URL', value: window.location.href }
+      ];
+      
+      const ul = document.createElement('ul');
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.name}:</strong> ${item.value}`;
+        ul.appendChild(li);
+      });
+      
+      envDiv.appendChild(ul);
+    }
+    
+    // DOM Check
+    function checkDOM() {
+      const domDiv = document.getElementById('dom-check');
+      domDiv.innerHTML = '';
+      
+      // Check for root element
+      const rootElement = document.getElementById('root');
+      const rootStatus = document.createElement('p');
+      
+      if (rootElement) {
+        rootStatus.innerHTML = '<span class="success">✓ Root element found!</span>';
+        rootStatus.innerHTML += `<br>Content: ${rootElement.innerHTML.length > 0 ? 'Has content' : 'Empty'}`;
+        rootStatus.innerHTML += `<br>Children: ${rootElement.childNodes.length}`;
+      } else {
+        rootStatus.innerHTML = '<span class="error">✗ Root element not found!</span>';
+      }
+      
+      domDiv.appendChild(rootStatus);
+    }
+    
+    // Network Check
+    document.getElementById('check-network').addEventListener('click', function() {
+      const resultsDiv = document.getElementById('network-results');
+      resultsDiv.innerHTML = 'Checking resources...';
+      
+      // Check main resources
+      const resources = [
+        '/static/js/main.chunk.js',
+        '/static/js/vendors~main.chunk.js',
+        '/static/js/bundle.js',
+        '/manifest.json',
+        '/favicon.ico'
+      ];
+      
+      const results = [];
+      let completed = 0;
+      
+      resources.forEach(url => {
+        fetch(url)
+          .then(response => {
+            results.push({
+              url,
+              status: response.status,
+              ok: response.ok
+            });
+          })
+          .catch(error => {
+            results.push({
+              url, 
+              error: error.message
+            });
+          })
+          .finally(() => {
+            completed++;
+            if (completed === resources.length) {
+              displayNetworkResults(results);
+            }
+          });
+      });
+    });
+    
+    function displayNetworkResults(results) {
+      const resultsDiv = document.getElementById('network-results');
+      let html = '<ul>';
+      
+      results.forEach(result => {
+        const statusClass = result.ok ? 'success' : 'error';
+        const statusText = result.ok ? '✓' : '✗';
+        const details = result.error 
+          ? `Error: ${result.error}` 
+          : `Status: ${result.status}`;
+          
+        html += `<li>
+          <span class="${statusClass}">${statusText}</span> 
+          ${result.url} - ${details}
+        </li>`;
+      });
+      
+      html += '</ul>';
+      resultsDiv.innerHTML = html;
+    }
+    
+    // Check React Server
+    document.getElementById('check-server').addEventListener('click', function() {
+      const resultDiv = document.getElementById('server-result');
+      resultDiv.innerHTML = 'Checking server...';
+      
+      // Try to fetch the main HTML page
+      fetch('/')
+        .then(response => {
+          if (response.ok) {
+            return response.text();
+          }
+          throw new Error(`Server responded with status: ${response.status}`);
+        })
+        .then(html => {
+          const hasReactContent = html.includes('react') || html.includes('root');
+          resultDiv.innerHTML = `
+            <p class="success">✓ Server is responding!</p>
+            <p>HTML size: ${html.length} bytes</p>
+            <p>Contains React references: ${hasReactContent ? 'Yes' : 'No'}</p>
+          `;
+        })
+        .catch(error => {
+          resultDiv.innerHTML = `
+            <p class="error">✗ Error checking server: ${error.message}</p>
+            <p>Make sure your React development server is running.</p>
+          `;
+        });
+    });
+    
+    // Capture console errors
+    const originalConsoleError = console.error;
+    const errors = [];
+    
+    console.error = function() {
+      errors.push(Array.from(arguments).join(' '));
+      updateConsoleErrors();
+      originalConsoleError.apply(console, arguments);
+    };
+    
+    function updateConsoleErrors() {
+      const errorsDiv = document.getElementById('console-errors');
+      if (errors.length === 0) {
+        errorsDiv.innerHTML = 'No errors detected yet.';
+      } else {
+        errorsDiv.innerHTML = '<ul>' + 
+          errors.map(error => `<li class="error">${error}</li>`).join('') + 
+          '</ul>';
+      }
+    }
+    
+    // Run initial checks
+    document.addEventListener('DOMContentLoaded', function() {
+      checkEnvironment();
+      checkDOM();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* Order Track Styles */
+.order-track-container {
+  padding: 2rem 0;
+}
+
+/* Status Badge Styling */
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.status-badge.delivered {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Order Status Header */
+.order-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+/* Tracking Steps */
+.tracking-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  position: relative;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  text-align: center;
+}
+
+.step-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  z-index: 2;
+}
+
+.step.completed .step-icon {
+  background-color: #28a745;
+  color: white;
+}
+
+.step-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.step.completed .step-label {
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Order Items List */
+.order-items {
+  margin: 1.5rem 0;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h6 {
+  margin-bottom: 0.25rem;
+}
+
+.item-meta {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.item-quantity {
+  width: 60px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.item-price {
+  width: 80px;
+  text-align: right;
+  font-weight: bold;
+}
+
+/* Order Summary */
+.order-summary {
+  margin-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.summary-row.total {
+  border-top: 1px solid #e9ecef;
+  padding-top: 0.75rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
