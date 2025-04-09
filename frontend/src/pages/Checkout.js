@@ -133,7 +133,7 @@ const Checkout = () => {
         
         // Load Razorpay checkout
         const options = {
-          key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Already in .env file
+          key: response.data.key_id, // Get key from backend response instead of env variable
           amount: orderDataRazorpay.amount,
           currency: orderDataRazorpay.currency,
           name: 'Pizza Paradise',

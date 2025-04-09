@@ -1,6 +1,7 @@
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = `${API_BASE_URL}/api`;
 
 const RazorpayService = {
   createOrder: async (amount) => {
@@ -25,7 +26,7 @@ const RazorpayService = {
 
   initializePayment: (orderData, userData, onSuccess, onError) => {
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_yourkeyhere', // Replace with your test key
+      key: orderData.key_id, // Get key from backend response instead of env variable
       amount: orderData.amount,
       currency: orderData.currency,
       name: 'Pizza Paradise',
