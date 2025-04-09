@@ -194,9 +194,17 @@ const Checkout = () => {
       } else if (formData.paymentMethod === 'cash') {
         // Handle cash on delivery - create order in database
         try {
+          // Get the auth token
+          const token = localStorage.getItem('token');
+          if (!token) {
+            throw new Error('Authentication required. Please log in again.');
+          }
+
+          // Make sure we're sending the proper authorization header
           const orderResponse = await axios.post(`${API_URL}/orders/create`, orderData, {
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
             }
           });
           
@@ -209,17 +217,17 @@ const Checkout = () => {
             
             // Redirect to order confirmation
             setTimeout(() => {
-              navigate(`/order-confirmation/${orderResponse.data.order._id}`);
+              navigate(`/order-confirmation/${orderResponse.data.order._id || orderResponse.data.orderId}`);
             }, 2000);
           } else {
-            throw new Error('Failed to create order');
+            throw new Error('Failed to create order: ' + (orderResponse.data?.message || 'Unknown error'));
           }
         } catch (orderErr) {
           console.error('Error creating order:', orderErr);
-          setError('Could not create your order. Please try again.');
+          setError(orderErr.message || 'Could not create your order. Please try again.');
+        } finally {
+          setLoading(false);
         }
-        
-        setLoading(false);
       }
     } catch (err) {
       console.error('Error processing order:', err);

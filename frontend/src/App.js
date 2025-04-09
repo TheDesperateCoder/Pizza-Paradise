@@ -19,12 +19,14 @@ import OrderTrack from './pages/OrderTrack';
 import ProductDetail from './pages/ProductDetail';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
+import SvgFixer from './components/utils/SvgFixer'; // Import the SVG fixer component
 import './App.css';
 
 function App() {
   return (
     <AuthProvider>
       <div className="d-flex flex-column min-vh-100">
+        <SvgFixer /> {/* Add the SVG fixer component */}
         <Header />
         <main className="flex-grow-1">
           <Routes>
