@@ -1,8 +1,9 @@
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
-// Update the base URL to port 3001 to match your backend
+// Create axios instance with dynamic base URL from config
 const API = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: `${API_BASE_URL}/api`,
   withCredentials: true,
 });
 

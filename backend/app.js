@@ -32,7 +32,7 @@ connectDB();
 app.use(express.json({ limit: '10mb' }));  // Increased payload limit
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://pizza-delivery-app.com'], // Whitelist domains
+  origin: ['http://localhost:3000', 'https://pizza-paradise.onrender.com'], // Updated to include deployed frontend
   credentials: true
 }));
 app.use(cookieParser());

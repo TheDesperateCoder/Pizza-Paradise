@@ -17,7 +17,7 @@ const _dirname = path.resolve(); // Get the directory name
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://pizza-paradise.onrender.com'],
   credentials: true
 }));
 app.use(express.json());

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
-const API_URL = 'http://localhost:3001/api/auth';
+const API_URL = `${API_BASE_URL}/api/auth`;
 
 class AuthService {
   async login(email, password) {

@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import AuthService from '../services/AuthService';
 import '../styles/ForgotPassword.css';
+import API_BASE_URL from '../config/api';
+
+const API_URL = `${API_BASE_URL}/api`;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

@@ -4,6 +4,9 @@ import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap'
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import '../styles/Login.css';
+import API_BASE_URL from '../config/api';
+
+const API_URL = `${API_BASE_URL}/api`;
 
 const Login = () => {
   const [email, setEmail] = useState('');
