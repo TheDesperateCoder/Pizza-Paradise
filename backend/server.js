@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
-
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const menuRoutes = require('./routes/menuRoutes');
@@ -22,6 +21,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Debug middleware for logging requests
 app.use((req, res, next) => {
@@ -58,9 +58,9 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve static files from the React app
-app.use(express.static(path.join(_dirname, 'frontend/build')));
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(_dirname, 'frontend/build/index.html'), (err) => {
+  res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'), (err) => {
     if (err) {
       console.error('Error sending file:', err);
       res.status(500).send('Error loading page');
