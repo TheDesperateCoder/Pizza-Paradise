@@ -49,57 +49,61 @@ const Login = () => {
   };
 
   return (
-    <Container className="login-container">
-      <Row className="justify-content-center">
-        <Col md={6} lg={5}>
-          <Card className="login-card">
-            <Card.Body>
-              <h2 className="text-center mb-4">Login</h2>
-              
-              {error && <Alert variant="danger">{error}</Alert>}
-              
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control 
-                    type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
-                  />
-                </Form.Group>
+    <div className="login-page">
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs={12} sm={10} md={8} lg={6}>
+            <Card className="login-card">
+              <Card.Body>
+                <h2 className="text-center mb-4">Login</h2>
                 
-                <Form.Group className="mb-4">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control 
-                    type="password" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required 
-                  />
-                  <div className="text-end mt-1">
-                    <Link to="/forgot-password" className="small">Forgot Password?</Link>
-                  </div>
-                </Form.Group>
+                {error && <Alert variant="danger">{error}</Alert>}
                 
-                <Button 
-                  type="submit" 
-                  variant="primary" 
-                  className="w-100" 
-                  disabled={loading}
-                >
-                  {loading ? 'Logging in...' : 'Login'}
-                </Button>
-              </Form>
-              
-              <div className="text-center mt-3">
-                <p>Don't have an account? <Link to="/register">Register</Link></p>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control 
+                      type="email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      required 
+                    />
+                  </Form.Group>
+                  
+                  <Form.Group className="mb-4">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control 
+                      type="password" 
+                      value={password} 
+                      onChange={(e) => setPassword(e.target.value)} 
+                      required 
+                    />
+                    <div className="text-end mt-1">
+                      <Link to="/forgot-password" className="small">Forgot Password?</Link>
+                    </div>
+                  </Form.Group>
+                  
+                  <Button 
+                    type="submit" 
+                    variant="primary" 
+                    className="w-100 mb-3" 
+                    disabled={loading}
+                  >
+                    {loading ? 'Logging in...' : 'Login'}
+                  </Button>
+                </Form>
+                
+                <div className="register-container">
+                  <p className="mb-0">
+                    Don't have an account? <Link to="/register" className="register-link">Register</Link>
+                  </p>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

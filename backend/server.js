@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
+
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -11,6 +13,8 @@ const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+const _dirname = path.resolve(); // Get the directory name
 
 // Middleware
 app.use(cors({
@@ -51,6 +55,17 @@ if (orderRoutes && typeof orderRoutes === 'function') {
 // Debug route to test API is working
 app.get('/api/health', (req, res) => {
   res.status(200).json({ message: 'Server is running' });
+});
+
+// Serve static files from the React app
+app.use(express.static(path.join(_dirname, 'frontend/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(_dirname, 'frontend/build/index.html'), (err) => {
+    if (err) {
+      console.error('Error sending file:', err);
+      res.status(500).send('Error loading page');
+    }
+  });
 });
 
 // Global error handler

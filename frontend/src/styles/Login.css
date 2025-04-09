@@ -1,54 +1,89 @@
-.login-container {
-  padding: 2rem 0;
-  min-height: 80vh;
+.login-page {
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  width: 100%;
+  padding: 2rem 0;
 }
 
-.login-card {
-  border-radius: 10px;
-  padding: 2rem 1rem;
+/* Remove redundant login-container class */
+/* .login-container { ... } */
+
+.login-card, .login-card.card {
+  max-width: 450px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: #ffffff;
   border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.login-card .card-body {
+  padding: 2rem;
 }
 
 .login-card h2 {
   font-weight: 600;
   color: #333;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .forgot-link {
   color: #ff5722;
   text-decoration: none;
   font-size: 0.9rem;
+  transition: all 0.2s;
 }
 
 .forgot-link:hover {
   text-decoration: underline;
+  color: #e64a19;
 }
 
-/* Social Login Buttons */
-.social-login {
+.register-container {
+  text-align: center;
   margin-top: 1.5rem;
+  padding-top: 1rem;
   border-top: 1px solid #eee;
-  padding-top: 1.5rem;
-}
-
-.social-login button {
   width: 100%;
-  margin-bottom: 0.75rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.social-login svg {
-  margin-right: 10px;
+.register-link {
+  color: #ff5722;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  color: #e64a19;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .login-card {
-    padding: 1.5rem 1rem;
+  .login-card, .login-card.card {
+    max-width: 90%;
+  }
+  
+  .login-card .card-body {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-card, .login-card.card {
+    max-width: 95%;
+  }
+  
+  .login-card .card-body {
+    padding: 1.25rem;
+  }
+  
+  .login-card h2 {
+    font-size: 1.5rem;
   }
 }
