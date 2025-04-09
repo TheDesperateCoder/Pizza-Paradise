@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Card, Alert, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
 import '../styles/Register.css';
+import API_BASE_URL from '../config/api';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = `${API_BASE_URL}/api`;
 
 const Register = () => {
   const navigate = useNavigate();
