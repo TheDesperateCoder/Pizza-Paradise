@@ -1,8 +1,8 @@
 import axios from 'axios';
 import AuthService from './AuthService';
+import API_BASE_URL from '../config/api';
 
-// Use the same API URL as AuthService for consistency
-const API_URL = 'http://localhost:3001';
+const API_URL = `${API_BASE_URL}/api`;
 
 class OrderService {
   // Helper to get auth header

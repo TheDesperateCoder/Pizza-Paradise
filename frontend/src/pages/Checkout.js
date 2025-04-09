@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
+
+const API_URL = `${API_BASE_URL}/api`;
 
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -118,7 +121,7 @@ const Checkout = () => {
       // Only proceed with Razorpay for credit card payments
       if (formData.paymentMethod === 'credit') {
         // Create Razorpay order using existing backend endpoint
-        const response = await axios.post('http://localhost:3001/api/payment/create-order', { 
+        const response = await axios.post(`${API_URL}/payment/create-order`, { 
           amount: orderData.totalAmount 
         });
         
@@ -145,7 +148,7 @@ const Checkout = () => {
                 razorpay_signature: response.razorpay_signature
               };
               
-              const verifyResponse = await axios.post('http://localhost:3001/api/payment/verify-payment', verificationData);
+              const verifyResponse = await axios.post(`${API_URL}/payment/verify-payment`, verificationData);
               
               if (verifyResponse.data.success) {
                 // Payment successful
@@ -191,7 +194,7 @@ const Checkout = () => {
       } else if (formData.paymentMethod === 'cash') {
         // Handle cash on delivery - create order in database
         try {
-          const orderResponse = await axios.post('http://localhost:3001/api/orders/create', orderData, {
+          const orderResponse = await axios.post(`${API_URL}/orders/create`, orderData, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
