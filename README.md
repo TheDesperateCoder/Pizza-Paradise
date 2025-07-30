@@ -152,8 +152,7 @@ npm install express mongoose jsonwebtoken dotenv bcryptjs
 
 ## 📸 Screenshots
 
-Coming soon — add screenshots of your UI here!  
-You can use tools like **Lightshot**, **Snipping Tool**, or **Loom** to capture your app in action.
+Coming soon — 
 
 ---
 
